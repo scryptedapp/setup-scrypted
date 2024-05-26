@@ -1,0 +1,38 @@
+name: Install Scrypted
+description: Install Scrypted service on GitHub Actions
+author: Brett Jia
+
+inputs:
+  version:
+    description: Scrypted server version
+    required: true
+    default: latest
+
+runs:
+  using: composite
+
+  steps:
+    - name: Run install script
+      if: runner.os == 'Linux'
+      run: |
+        export SCRYPTED_INSTALL_VERSION='${{ inputs.version }}'
+        curl -s https://raw.githubusercontent.com/koush/scrypted/main/install/local/install-scrypted-dependencies-linux.sh | sudo SERVICE_USER=$USER bash
+
+    - name: Run install script
+      if: runner.os == 'macOS'
+      run: |
+        export SCRYPTED_INSTALL_VERSION='${{ inputs.version }}'
+        mkdir -p ~/.scrypted
+        curl -s https://raw.githubusercontent.com/koush/scrypted/main/install/local/install-scrypted-dependencies-mac.sh > ~/.scrypted/install-scrypted-dependencies-mac.sh
+        bash ~/.scrypted/install-scrypted-dependencies-mac.sh
+
+    - name: Run install script
+      if: runner.os == 'Windows'
+      run: |
+        $env:SCRYPTED_INSTALL_VERSION='${{ inputs.version }}'
+        iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/koush/scrypted/main/install/local/install-scrypted-dependencies-win.ps1'))
+	
+    - name: Wait for server to start
+      run: |
+	curl -k --retry 20 --retry-all-errors --retry-max-time 600 https://localhost:10443/
+ 
