@@ -24,8 +24,7 @@ runs:
       if: runner.os == 'Linux'
       shell: bash
       run: |
-        export SCRYPTED_INSTALL_VERSION='${{ inputs.version }}'
-        curl -s https://raw.githubusercontent.com/${{ inputs.repo }}/${{ inputs.branch }}/install/local/install-scrypted-dependencies-linux.sh | sudo SERVICE_USER=$USER bash
+        curl -s https://raw.githubusercontent.com/${{ inputs.repo }}/${{ inputs.branch }}/install/local/install-scrypted-dependencies-linux.sh | sudo SERVICE_USER=$USER SCRYPTED_INSTALL_VERSION=${{ inputs.version }} bash
 
     - name: Run install script
       if: runner.os == 'macOS'
