@@ -39,7 +39,7 @@ runs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
-        $env:SCRYPTED_INSTALL_VERSION='${{ inputs.version }}'
+        [Environment]::SetEnvironmentVariable('SCRYPTED_INSTALL_VERSION','${{ inputs.version }}')
         iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/${{ inputs.repo }}/${{ inputs.branch }}/install/local/install-scrypted-dependencies-win.ps1'))
 
     - name: Wait for server to start
