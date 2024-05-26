@@ -34,7 +34,7 @@ runs:
       run: |
         $env:SCRYPTED_INSTALL_VERSION='${{ inputs.version }}'
         iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/koush/scrypted/main/install/local/install-scrypted-dependencies-win.ps1'))
-	
+
     - name: Wait for server to start
       shell: bash
       run: |
