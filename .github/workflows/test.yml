@@ -5,6 +5,13 @@ on:
       - 'main'
   pull_request:
   workflow_dispatch:
+    inputs:
+      repo:
+        required: false
+        type: string
+      branch:
+        required: false
+        type: string
 
 jobs:
   test:
@@ -17,4 +24,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: ./
-
+      with:
+        repo: ${{ inputs.repo }}
+        branch: ${{ inputs.branch }}
