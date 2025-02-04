@@ -15,8 +15,10 @@ inputs:
     description: Source GitHub branch to pull install scripts from
     required: true
     default: main
-  skip_healthcheck:
-    description: Skip verifying Scrypted server is up and running at port 10443
+  healthcheck:
+    description: Verify Scrypted server is up and running at port 10443
+    required: true
+    default: true
     type: boolean
 
 runs:
@@ -46,7 +48,7 @@ runs:
         iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/${{ inputs.repo }}/${{ inputs.branch }}/install/local/install-scrypted-dependencies-win.ps1'))
 
     - name: Wait for server to start
-      if: ${{ !inputs.skip_healthcheck }}
+      if: ${{ inputs.healthcheck }}
       shell: bash
       run: |
         curl -k --retry 20 --retry-all-errors --retry-max-time 600 https://localhost:10443/
