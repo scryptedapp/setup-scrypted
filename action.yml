@@ -17,9 +17,8 @@ inputs:
     default: main
   skip_healthcheck:
     description: Skip verifying Scrypted server is up and running at port 10443
-    required: true
+    required: false
     type: bool
-    default: false
 
 runs:
   using: composite
